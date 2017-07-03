@@ -22,12 +22,19 @@ public class ManipulaArquivosUtil {
 		return content;
 	}
 	
-	public static void gravarArquivo(String conteudo, String caminho) {
+	public static void gravarArquivo(String conteudo, String caminho, String nome) {
 		byte[] conteudoEmBytes = conteudo.getBytes();
 		Path path = Paths.get(caminho);
 		
 		try {
-			Files.write(path, conteudoEmBytes);
+
+			if(Files.notExists(path)) {
+				Files.createDirectory(path);
+			}
+			
+			Path caminhoCompleto = Paths.get(caminho + nome);
+			
+			Files.write(caminhoCompleto, conteudoEmBytes);
 			System.out.println("Arquivo gerado com sucesso !");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
